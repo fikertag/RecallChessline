@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 import { Study as IStudyType } from "@/types/chess";
 
-export interface IStudyDocument extends Omit<IStudyType, "_id">, Document {}
+export interface IStudyDocument extends IStudyType {}
 
 const MoveNodeSchema = new Schema(
   {

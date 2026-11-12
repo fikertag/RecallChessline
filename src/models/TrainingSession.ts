@@ -1,9 +1,7 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 import { TrainingSession as ITrainingSessionType } from "@/types/chess";
 
-export interface ITrainingSessionDocument
-  extends Omit<ITrainingSessionType, "_id">,
-    Document {}
+export interface ITrainingSessionDocument extends ITrainingSessionType {}
 
 const TrainingMistakeSchema = new Schema(
   {
