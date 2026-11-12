@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/learnchess";
+const MONGODB_URI = process.env.MONGODB_URI || "";
 
 interface CachedMongoose {
   conn: typeof mongoose | null;
@@ -31,19 +31,25 @@ export async function connectDB(): Promise<{ isFallback: boolean }> {
   }
 
   if (!cached.promise) {
-    const opts = {
+    const isProd = process.env.NODE_ENV === "production";
+    const opts: mongoose.ConnectOptions = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 2000, // Quick timeout to fallback if no Mongo daemon
+      serverSelectionTimeoutMS: isProd ? 10000 : 5000, // In dev 5s; in prod allow Atlas TLS & cold starts
     };
+
+    if (process.env.MONGODB_DB_NAME) {
+      opts.dbName = process.env.MONGODB_DB_NAME;
+    }
 
     cached.promise = mongoose
       .connect(MONGODB_URI, opts)
       .then((m) => {
         cached.isFallback = false;
+        console.log(`[Database] Successfully connected to MongoDB Atlas: ${m.connection.name} @ ${m.connection.host}`);
         return m;
       })
       .catch((err) => {
-        console.warn("MongoDB connection failed or daemon not running. Falling back to persistent local storage.", err.message);
+        console.warn(`[Database] MongoDB Atlas connection failed (${err.message}). Falling back to persistent local storage.`);
         cached.isFallback = true;
         return mongoose;
       });
@@ -67,7 +73,10 @@ interface LocalDatabase {
   trainingSessions: Record<string, Record<string, unknown>>;
 }
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+const DATA_DIR =
+  process.env.NODE_ENV === "production"
+    ? path.join("/tmp", ".data")
+    : path.join(process.cwd(), ".data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
 function ensureDbFile(): LocalDatabase {

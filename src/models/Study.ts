@@ -28,6 +28,7 @@ const MoveNodeSchema = new Schema(
 
 const StudySchema = new Schema<IStudyDocument>(
   {
+    _id: { type: String, required: true },
     userId: { type: String, required: true, index: true },
     name: { type: String, required: true, trim: true },
     description: { type: String, default: "" },

@@ -342,15 +342,15 @@ export function TrainingBoard({
             </div>
 
             {/* 3 Strategy Buttons */}
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-muted/60 rounded-lg text-xs">
+            <div className="grid grid-cols-3 gap-1.5 tabs-track">
               <button
                 type="button"
                 onClick={() => handleSwitchStrategy("longest")}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md font-medium transition-all text-xs",
+                  "tab-btn gap-1.5 py-2",
                   strategy === "longest"
-                    ? "bg-background text-foreground shadow-xs font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "tab-btn-active text-amber-600 dark:text-amber-400 font-bold"
+                    : "hover:bg-background/40"
                 )}
               >
                 <Zap className="w-3.5 h-3.5 text-amber-500" />
@@ -361,10 +361,10 @@ export function TrainingBoard({
                 type="button"
                 onClick={() => handleSwitchStrategy("random")}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md font-medium transition-all text-xs",
+                  "tab-btn gap-1.5 py-2",
                   strategy === "random"
-                    ? "bg-background text-foreground shadow-xs font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "tab-btn-active text-emerald-600 dark:text-emerald-400 font-bold"
+                    : "hover:bg-background/40"
                 )}
               >
                 <Dices className="w-3.5 h-3.5 text-emerald-500" />
@@ -375,10 +375,10 @@ export function TrainingBoard({
                 type="button"
                 onClick={() => handleSwitchStrategy("manual")}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md font-medium transition-all text-xs",
+                  "tab-btn gap-1.5 py-2",
                   strategy === "manual"
-                    ? "bg-background text-foreground shadow-xs font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "tab-btn-active text-blue-600 dark:text-blue-400 font-bold"
+                    : "hover:bg-background/40"
                 )}
               >
                 <ListFilter className="w-3.5 h-3.5 text-blue-500" />
@@ -426,23 +426,27 @@ export function TrainingBoard({
 
           {/* Mode Switcher & Hint Controls */}
           <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-card text-card-foreground border border-border rounded-xl shadow-xs">
-            <div className="flex items-center gap-1.5">
-              <Button
-                variant={mode === "guided" ? "default" : "secondary"}
-                size="sm"
+            <div className="flex items-center gap-1.5 tabs-track">
+              <button
+                type="button"
                 onClick={() => handleSwitchMode("guided")}
-                className="text-xs font-semibold h-8"
+                className={cn(
+                  "tab-btn h-8 px-3 font-semibold",
+                  mode === "guided" ? "tab-btn-active text-primary" : "hover:bg-background/40"
+                )}
               >
                 Guided Practice
-              </Button>
-              <Button
-                variant={mode === "recall" ? "default" : "secondary"}
-                size="sm"
+              </button>
+              <button
+                type="button"
                 onClick={() => handleSwitchMode("recall")}
-                className="text-xs font-semibold h-8"
+                className={cn(
+                  "tab-btn h-8 px-3 font-semibold",
+                  mode === "recall" ? "tab-btn-active text-primary" : "hover:bg-background/40"
+                )}
               >
                 Active Recall
-              </Button>
+              </button>
             </div>
 
             <Button

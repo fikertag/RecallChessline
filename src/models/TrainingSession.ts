@@ -18,6 +18,7 @@ const TrainingMistakeSchema = new Schema(
 
 const TrainingSessionSchema = new Schema<ITrainingSessionDocument>(
   {
+    _id: { type: String, required: true },
     userId: { type: String, required: true, index: true },
     studyId: { type: String, required: true, index: true },
     studyName: { type: String },

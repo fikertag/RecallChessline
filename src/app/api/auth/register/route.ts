@@ -64,7 +64,9 @@ export async function POST(req: Request) {
     if (!isFallback) {
       try {
         await UserModel.create(newUserObj);
-      } catch {
+        console.log(`[Database] User created in MongoDB Atlas: ${newUserObj.email} (${newUserObj._id})`);
+      } catch (mongoErr: unknown) {
+        console.error("[Database] Error creating user in MongoDB Atlas:", mongoErr instanceof Error ? mongoErr.message : mongoErr);
         localDb.collection("users").create(newUserObj);
       }
     } else {
@@ -77,7 +79,8 @@ export async function POST(req: Request) {
       if (!isFallback) {
         try {
           await StudyModel.create(study);
-        } catch {
+        } catch (studyErr: unknown) {
+          console.error("[Database] Error creating starter study in MongoDB Atlas:", studyErr instanceof Error ? studyErr.message : studyErr);
           localDb.collection<Study>("studies").create(study);
         }
       } else {
