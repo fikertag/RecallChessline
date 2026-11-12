@@ -198,6 +198,89 @@ export function updateNodeMetadata(
   };
 }
 
+export interface VariationLine {
+  id: string;
+  name: string;
+  shortName: string;
+  moves: MoveNode[];
+  nodeIds: string[];
+  length: number;
+  lastMoveSan: string;
+}
+
+export function formatMovesToSanLine(moves: MoveNode[]): string {
+  if (moves.length === 0) return "Starting Position";
+  return moves
+    .map((m) => (m.turn === "w" ? `${m.moveNumber}. ${m.san}` : `${m.san}`))
+    .join(" ");
+}
+
+/**
+ * Extracts all complete paths from root to leaf nodes in the study tree.
+ */
+export function getAllVariationLines(study: Study): VariationLine[] {
+  const lines: VariationLine[] = [];
+
+  function traverse(nodeId: string, currentPath: MoveNode[]) {
+    const node = study.nodes[nodeId];
+    if (!node) return;
+
+    const newPath = [...currentPath, node];
+
+    if (node.children.length === 0) {
+      const name = formatMovesToSanLine(newPath);
+      const lastFew = newPath.slice(-2);
+      const shortName = formatMovesToSanLine(lastFew);
+      lines.push({
+        id: node.id,
+        name,
+        shortName,
+        moves: newPath,
+        nodeIds: newPath.map((m) => m.id),
+        length: newPath.length,
+        lastMoveSan: node.san,
+      });
+    } else {
+      for (const childId of node.children) {
+        traverse(childId, newPath);
+      }
+    }
+  }
+
+  for (const rootId of study.rootNodeIds) {
+    traverse(rootId, []);
+  }
+
+  return lines;
+}
+
+/**
+ * Gets the longest variation line (deepest branch) in the study.
+ */
+export function getLongestVariationLine(study: Study): VariationLine | null {
+  const lines = getAllVariationLines(study);
+  if (lines.length === 0) return null;
+  return lines.reduce((prev, curr) => (curr.length > prev.length ? curr : prev), lines[0]);
+}
+
+/**
+ * Gets a random variation line from the study.
+ */
+export function getRandomVariationLine(study: Study): VariationLine | null {
+  const lines = getAllVariationLines(study);
+  if (lines.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * lines.length);
+  return lines[randomIndex];
+}
+
+/**
+ * Finds a specific variation line by its leaf node ID.
+ */
+export function getVariationLineById(study: Study, leafId: string): VariationLine | null {
+  const lines = getAllVariationLines(study);
+  return lines.find((l) => l.id === leafId) || null;
+}
+
 /**
  * Computes opening tree statistics: variation count (leaf nodes), total moves, and max depth.
  */
@@ -293,3 +376,4 @@ export function exportStudyToPgn(study: Study): string {
 
   return `${tags.join("\n")}\n\n${movesText} *`;
 }
+

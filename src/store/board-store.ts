@@ -52,3 +52,4 @@ export const useBoardStore = create<BoardState>((set) => ({
   },
   clearHighlights: () => set({ customSquareStyles: {}, selectedSquare: null }),
 }));
+

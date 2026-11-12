@@ -77,3 +77,4 @@ export async function GET() {
     studiesNeedingRevision: studiesNeedingRevision.slice(0, 4),
   });
 }
+

@@ -1,19 +1,25 @@
 "use client";
 
-import React, { use } from "react";
-import Link from "next/link";
+import React, { use, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { TrainingBoard } from "@/components/training/TrainingBoard";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, BookOpen, GraduationCap } from "lucide-react";
+import { LineStrategy } from "@/lib/training-engine";
 
 interface TrainPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function StudyTrainPage({ params }: TrainPageProps) {
-  const { id } = use(params);
+function TrainContent({ id }: { id: string }) {
+  const searchParams = useSearchParams();
+  const rawStrategy = searchParams.get("strategy");
+  const rawLineId = searchParams.get("lineId") || undefined;
+
+  const validStrategies: LineStrategy[] = ["longest", "random", "manual"];
+  const strategy: LineStrategy =
+    rawStrategy && validStrategies.includes(rawStrategy as LineStrategy)
+      ? (rawStrategy as LineStrategy)
+      : "random";
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["study-train", id],
@@ -28,58 +34,48 @@ export default function StudyTrainPage({ params }: TrainPageProps) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px]">
         <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mb-3" />
-        <p className="text-xs text-neutral-400">Preparing training engine...</p>
+        <p className="text-xs text-muted-foreground">Preparing training engine...</p>
       </div>
     );
   }
 
   if (error || !data?.study) {
     return (
-      <div className="p-8 text-center bg-neutral-900 border border-neutral-800 rounded-xl max-w-md mx-auto my-12">
-        <h3 className="text-base font-bold text-red-400">Study Not Found</h3>
-        <p className="text-xs text-neutral-400 mt-2">
+      <div className="p-8 text-center bg-card text-card-foreground border border-border rounded-xl max-w-md mx-auto my-12">
+        <h3 className="text-base font-bold text-destructive">Study Not Found</h3>
+        <p className="text-xs text-muted-foreground mt-2">
           Unable to start training session for this study.
         </p>
       </div>
     );
   }
 
-  const study = data.study;
+  return (
+    <div className="w-full">
+      {/* Interactive Training Arena: Board on left, all Study & Stats UIs on the side */}
+      <TrainingBoard
+        study={data.study}
+        initialMode="guided"
+        initialStrategy={strategy}
+        initialLineId={rawLineId}
+      />
+    </div>
+  );
+}
+
+export default function StudyTrainPage({ params }: TrainPageProps) {
+  const { id } = use(params);
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
-        <div className="flex items-center gap-3">
-          <Link href={`/studies/${study._id}`}>
-            <Button variant="ghost" size="icon" className="h-9 w-9 text-neutral-400 hover:text-white">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-neutral-100">{study.name}</h1>
-              <Badge variant={study.color === "white" ? "white" : "black"}>
-                {study.color === "white" ? "White Repertoire" : "Black Repertoire"}
-              </Badge>
-            </div>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Opening Practice Mode: Test your memory against saved opponent variations.
-            </p>
-          </div>
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center min-h-[500px]">
+          <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mb-3" />
+          <p className="text-xs text-muted-foreground">Loading practice arena...</p>
         </div>
-
-        <Link href={`/studies/${study._id}`}>
-          <Button variant="secondary" size="sm">
-            <BookOpen className="w-4 h-4 mr-1.5" />
-            Edit Move Tree
-          </Button>
-        </Link>
-      </div>
-
-      {/* Interactive Training Engine */}
-      <TrainingBoard study={study} initialMode="guided" />
-    </div>
+      }
+    >
+      <TrainContent id={id} />
+    </Suspense>
   );
 }

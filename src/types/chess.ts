@@ -88,3 +88,4 @@ export interface BoardPreferences {
   showCoordinates: boolean;
   autoFlip: boolean;
 }
+

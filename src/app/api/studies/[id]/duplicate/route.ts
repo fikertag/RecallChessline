@@ -66,3 +66,4 @@ export async function POST(req: Request, { params }: RouteParams) {
   localDb.collection<Study>("studies").create(duplicatedStudy);
   return NextResponse.json({ success: true, study: duplicatedStudy }, { status: 201 });
 }
+

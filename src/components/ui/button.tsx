@@ -9,15 +9,22 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "md", isLoading, children, disabled, ...props }, ref) => {
-    const base = "inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-amber-500/40 disabled:opacity-50 disabled:cursor-not-allowed select-none";
+    const base =
+      "inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-ring/40 disabled:opacity-50 disabled:cursor-not-allowed select-none";
 
     const variants = {
-      default: "bg-amber-600 text-white hover:bg-amber-700 shadow-sm active:scale-[0.98]",
-      amber: "bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 shadow-sm",
-      secondary: "bg-neutral-800 text-neutral-100 hover:bg-neutral-700 border border-neutral-700/60",
-      outline: "border border-neutral-700 text-neutral-300 hover:bg-neutral-800/80 hover:text-white",
-      danger: "bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]",
-      ghost: "text-neutral-400 hover:text-white hover:bg-neutral-800/60",
+      default:
+        "bg-primary text-primary-foreground hover:opacity-90 shadow-sm active:scale-[0.98]",
+      amber:
+        "bg-amber-600 dark:bg-amber-500 text-white dark:text-neutral-950 font-semibold hover:bg-amber-700 dark:hover:bg-amber-400 shadow-sm",
+      secondary:
+        "bg-secondary text-secondary-foreground hover:bg-muted border border-border",
+      outline:
+        "border border-border text-foreground hover:bg-muted hover:text-foreground",
+      danger:
+        "bg-destructive text-destructive-foreground hover:opacity-90 active:scale-[0.98]",
+      ghost:
+        "text-muted-foreground hover:text-foreground hover:bg-muted",
     };
 
     const sizes = {

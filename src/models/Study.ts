@@ -52,3 +52,4 @@ const StudySchema = new Schema<IStudyDocument>(
 
 export const StudyModel: Model<IStudyDocument> =
   mongoose.models.Study || mongoose.model<IStudyDocument>("Study", StudySchema);
+

@@ -117,3 +117,4 @@ export async function DELETE(req: Request, { params }: RouteParams) {
   localDb.collection<Study>("studies").findByIdAndDelete(id);
   return NextResponse.json({ success: true, message: "Study deleted successfully" });
 }
+

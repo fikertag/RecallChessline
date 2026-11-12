@@ -5,12 +5,10 @@ import {
   ChevronsLeft,
   ChevronLeft,
   ChevronRight,
-  ChevronsRight,
   RotateCcw,
   Volume2,
   VolumeX,
   Trash2,
-  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBoardStore } from "@/store/board-store";
@@ -37,7 +35,6 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
   // Keyboard navigation support
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is typing in an input or textarea
       const target = e.target as HTMLElement;
       if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
 
@@ -60,7 +57,7 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
   const currentNode = currentNodeId && study?.nodes ? study.nodes[currentNodeId] : null;
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-neutral-900 border border-neutral-800 rounded-xl">
+    <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-card text-card-foreground border border-border rounded-xl shadow-xs">
       {/* Navigation cluster */}
       <div className="flex items-center gap-1">
         <Button
@@ -68,7 +65,7 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
           size="icon"
           onClick={goToStart}
           title="Go to Start (Home)"
-          className="h-8 w-8 text-neutral-300"
+          className="h-8 w-8"
         >
           <ChevronsLeft className="w-4 h-4" />
         </Button>
@@ -78,7 +75,7 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
           onClick={goBack}
           disabled={!currentNodeId}
           title="Previous Move (←)"
-          className="h-8 w-8 text-neutral-300"
+          className="h-8 w-8"
         >
           <ChevronLeft className="w-4 h-4" />
         </Button>
@@ -87,7 +84,7 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
           size="icon"
           onClick={goForward}
           title="Next Move (→)"
-          className="h-8 w-8 text-neutral-300"
+          className="h-8 w-8"
         >
           <ChevronRight className="w-4 h-4" />
         </Button>
@@ -100,7 +97,7 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
           size="icon"
           onClick={toggleOrientation}
           title="Flip Board Orientation"
-          className="h-8 w-8 text-neutral-400 hover:text-white"
+          className="h-8 w-8"
         >
           <RotateCcw className="w-4 h-4" />
         </Button>
@@ -109,19 +106,23 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
           size="icon"
           onClick={() => setSoundEnabled(!soundEnabled)}
           title={soundEnabled ? "Mute Sounds" : "Enable Sounds"}
-          className="h-8 w-8 text-neutral-400 hover:text-white"
+          className="h-8 w-8"
         >
-          {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-red-400" />}
+          {soundEnabled ? (
+            <Volume2 className="w-4 h-4 text-primary" />
+          ) : (
+            <VolumeX className="w-4 h-4 text-destructive" />
+          )}
         </Button>
 
-        {/* Delete branch button (only active when at a move) */}
+        {/* Delete branch button */}
         {currentNodeId ? (
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setConfirmDeleteOpen(true)}
             title="Delete this move & branch"
-            className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-950/40"
+            className="h-8 w-8 text-destructive hover:bg-destructive/10"
           >
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -138,8 +139,8 @@ export function MoveControls({ onOpenAnnotationModal }: MoveControlsProps) {
       >
         <div className="space-y-4 pt-2">
           {currentNode ? (
-            <div className="p-3 bg-neutral-950 rounded-lg border border-neutral-800 text-xs text-neutral-300">
-              <span className="font-semibold text-amber-400">Move to delete:</span>{" "}
+            <div className="p-3 bg-muted rounded-lg border border-border text-xs text-foreground">
+              <span className="font-semibold text-primary">Move to delete:</span>{" "}
               {currentNode.turn === "w" ? `${currentNode.moveNumber}. ` : `${currentNode.moveNumber}... `}
               {currentNode.san}
             </div>

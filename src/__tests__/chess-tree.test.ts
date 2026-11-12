@@ -7,6 +7,10 @@ import {
   exportStudyToPgn,
   getTreeStatistics,
   updateNodeMetadata,
+  getAllVariationLines,
+  getLongestVariationLine,
+  getRandomVariationLine,
+  getVariationLineById,
   STARTING_FEN,
 } from "@/lib/chess-tree";
 import { Study } from "@/types/chess";
@@ -220,4 +224,59 @@ describe("Training Engine Logic", () => {
     expect(resMistake.newState.mistakes[0].playedSan).toBe("f4");
     expect(resMistake.newState.mistakes[0].expectedSan).toContain("Nf3");
   });
+
+  it("extracts variation lines and handles longest, random, and manual selection", () => {
+    let study = createEmptyTestStudy();
+    // 1. e4 e5 2. Nf3
+    const m1 = addMoveToTree(study, null, { from: "e2", to: "e4" });
+    const m2 = addMoveToTree(m1.updatedStudy, m1.nodeId, { from: "e7", to: "e5" });
+    const m3 = addMoveToTree(m2.updatedStudy, m2.nodeId, { from: "g1", to: "f3" });
+    study = m3.updatedStudy;
+
+    // Line A (short): 2... d6 (4 moves total)
+    const b1 = addMoveToTree(study, m3.nodeId, { from: "d7", to: "d6" });
+    study = b1.updatedStudy;
+
+    // Line B (longer): 2... Nc6 3. Bc4 Bc5 (6 moves total)
+    const b2 = addMoveToTree(study, m3.nodeId, { from: "b8", to: "c6" });
+    const b2c1 = addMoveToTree(b2.updatedStudy, b2.nodeId, { from: "f1", to: "c4" });
+    const b2c2 = addMoveToTree(b2c1.updatedStudy, b2c1.nodeId, { from: "f8", to: "c5" });
+    study = b2c2.updatedStudy;
+
+    // Test getAllVariationLines
+    const allLines = getAllVariationLines(study);
+    expect(allLines.length).toBe(2);
+
+    // Test getLongestVariationLine
+    const longest = getLongestVariationLine(study);
+    expect(longest).not.toBeNull();
+    expect(longest?.length).toBe(6);
+    expect(longest?.id).toBe(b2c2.nodeId);
+    expect(longest?.name).toContain("Bc5");
+
+    // Test getRandomVariationLine
+    const randomLine = getRandomVariationLine(study);
+    expect(randomLine).not.toBeNull();
+    expect([4, 6]).toContain(randomLine?.length);
+
+    // Test getVariationLineById
+    const manualLine = getVariationLineById(study, b1.nodeId);
+    expect(manualLine).not.toBeNull();
+    expect(manualLine?.length).toBe(4);
+    expect(manualLine?.name).toContain("d6");
+
+    // Test initTrainingState with longest strategy
+    const longestTraining = initTrainingState(study, "guided", { lineStrategy: "longest" });
+    expect(longestTraining.lineStrategy).toBe("longest");
+    expect(longestTraining.targetLine?.id).toBe(b2c2.nodeId);
+
+    // Test initTrainingState with manual strategy
+    const manualTraining = initTrainingState(study, "guided", {
+      lineStrategy: "manual",
+      manualLineId: b1.nodeId,
+    });
+    expect(manualTraining.lineStrategy).toBe("manual");
+    expect(manualTraining.targetLine?.id).toBe(b1.nodeId);
+  });
 });
+

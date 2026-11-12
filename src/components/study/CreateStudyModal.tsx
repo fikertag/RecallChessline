@@ -85,13 +85,13 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
     >
       <form onSubmit={handleSubmit} className="space-y-4 pt-2">
         {error ? (
-          <div className="p-3 rounded-lg bg-red-950/60 border border-red-800 text-xs text-red-200">
+          <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-xs text-destructive">
             {error}
           </div>
         ) : null}
 
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
             Study Name *
           </label>
           <Input
@@ -104,7 +104,7 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
               Repertoire Color *
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -113,8 +113,8 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
                 onClick={() => setColor("white")}
                 className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all ${
                   color === "white"
-                    ? "bg-neutral-100 text-neutral-900 border-white shadow-sm"
-                    : "bg-neutral-800 text-neutral-400 border-neutral-700 hover:text-white"
+                    ? "bg-neutral-100 text-neutral-900 border-neutral-300 dark:bg-neutral-200 dark:text-neutral-950 shadow-xs"
+                    : "bg-secondary text-muted-foreground border-border hover:text-foreground"
                 }`}
               >
                 White
@@ -124,8 +124,8 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
                 onClick={() => setColor("black")}
                 className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all ${
                   color === "black"
-                    ? "bg-neutral-950 text-neutral-100 border-amber-500 shadow-sm"
-                    : "bg-neutral-800 text-neutral-400 border-neutral-700 hover:text-white"
+                    ? "bg-neutral-900 text-neutral-100 border-primary dark:bg-neutral-950 dark:border-primary shadow-xs"
+                    : "bg-secondary text-muted-foreground border-border hover:text-foreground"
                 }`}
               >
                 Black
@@ -134,7 +134,7 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
               Opening Name
             </label>
             <Input
@@ -146,7 +146,7 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
             Description & Key Plans
           </label>
           <textarea
@@ -154,12 +154,12 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
             placeholder="Core ideas, pawn breaks, key goals for this repertoire..."
-            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-amber-500 resize-none"
+            className="w-full px-3 py-2 bg-input border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-ring resize-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
             YouTube Video Reference URL (Optional)
           </label>
           <Input
@@ -169,7 +169,7 @@ export function CreateStudyModal({ isOpen, onClose, onSuccess }: CreateStudyModa
           />
         </div>
 
-        <div className="flex justify-end gap-2 pt-3 border-t border-neutral-800">
+        <div className="flex justify-end gap-2 pt-3 border-t border-border">
           <Button type="button" variant="secondary" size="sm" onClick={onClose}>
             Cancel
           </Button>

@@ -27,7 +27,7 @@ export function StatCards({
       label: "Opening Variations",
       value: totalVariations,
       icon: GitBranch,
-      color: "text-blue-400",
+      color: "text-blue-500",
       bg: "bg-blue-500/10",
       border: "border-blue-500/20",
     },
@@ -35,7 +35,7 @@ export function StatCards({
       label: "Training Sessions",
       value: totalSessions,
       icon: GraduationCap,
-      color: "text-purple-400",
+      color: "text-purple-500",
       bg: "bg-purple-500/10",
       border: "border-purple-500/20",
     },
@@ -43,7 +43,7 @@ export function StatCards({
       label: "Overall Accuracy",
       value: `${overallAccuracy}%`,
       icon: Award,
-      color: "text-emerald-400",
+      color: "text-emerald-500",
       bg: "bg-emerald-500/10",
       border: "border-emerald-500/20",
     },
@@ -56,14 +56,14 @@ export function StatCards({
         return (
           <div
             key={item.label}
-            className="p-5 bg-neutral-900 border border-neutral-800 rounded-xl relative overflow-hidden group hover:border-neutral-700 transition-all shadow-sm"
+            className="p-5 bg-card text-card-foreground border border-border rounded-xl relative overflow-hidden group hover:border-primary/40 transition-all shadow-xs"
           >
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs uppercase tracking-wider text-neutral-400 font-medium">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
                   {item.label}
                 </span>
-                <div className="text-2xl font-bold text-neutral-100 mt-1">
+                <div className="text-2xl font-bold text-foreground mt-1">
                   {item.value}
                 </div>
               </div>

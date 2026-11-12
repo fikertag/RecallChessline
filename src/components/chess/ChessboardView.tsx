@@ -5,6 +5,7 @@ import { Chessboard } from "react-chessboard";
 import { Chess, Square } from "chess.js";
 import { useBoardStore } from "@/store/board-store";
 import { PromotionModal } from "./PromotionModal";
+import { cn } from "@/lib/utils";
 
 interface ChessboardViewProps {
   fen: string;
@@ -12,6 +13,7 @@ interface ChessboardViewProps {
   interactive?: boolean;
   lastMove?: { from: string; to: string } | null;
   boardWidth?: number;
+  className?: string;
 }
 
 export function ChessboardView({
@@ -20,6 +22,7 @@ export function ChessboardView({
   interactive = true,
   lastMove,
   boardWidth,
+  className,
 }: ChessboardViewProps) {
   const {
     orientation,
@@ -267,8 +270,8 @@ export function ChessboardView({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-[560px] mx-auto select-none">
-      <div className="w-full aspect-square rounded-xl overflow-hidden shadow-2xl border-4 border-neutral-800 bg-neutral-900 transition-all">
+    <div className={cn("flex flex-col items-center justify-center w-full max-w-[430px] mx-auto select-none", className)}>
+      <div className="w-full aspect-square rounded-xl overflow-hidden shadow-lg border-2 border-border bg-card transition-all">
         <Chessboard
           options={{
             position: fen,

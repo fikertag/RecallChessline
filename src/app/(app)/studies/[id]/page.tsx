@@ -9,9 +9,9 @@ import { MoveControls } from "@/components/chess/MoveControls";
 import { MoveTreeVisualizer } from "@/components/chess/MoveTreeVisualizer";
 import { MoveCommentary } from "@/components/study/MoveCommentary";
 import { StudyHeader } from "@/components/study/StudyHeader";
+import { LineStudySelector } from "@/components/study/LineStudySelector";
 import { NodeAnnotationModal } from "@/components/chess/NodeAnnotationModal";
 import { VideoReferenceModal } from "@/components/study/VideoReferenceModal";
-import { Study } from "@/types/chess";
 
 interface StudyPageProps {
   params: Promise<{ id: string }>;
@@ -49,16 +49,16 @@ export default function StudyPage({ params }: StudyPageProps) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px]">
         <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mb-3" />
-        <p className="text-xs text-neutral-400">Loading opening study & variations...</p>
+        <p className="text-xs text-muted-foreground">Loading opening study & variations...</p>
       </div>
     );
   }
 
   if (error || !study) {
     return (
-      <div className="p-8 text-center bg-neutral-900 border border-neutral-800 rounded-xl max-w-md mx-auto my-12">
-        <h3 className="text-base font-bold text-red-400">Study Not Found</h3>
-        <p className="text-xs text-neutral-400 mt-2">
+      <div className="p-8 text-center bg-card text-card-foreground border border-border rounded-xl max-w-md mx-auto my-12">
+        <h3 className="text-base font-bold text-destructive">Study Not Found</h3>
+        <p className="text-xs text-muted-foreground mt-2">
           This study could not be loaded or you do not have permission to access it.
         </p>
       </div>
@@ -81,12 +81,9 @@ export default function StudyPage({ params }: StudyPageProps) {
 
   return (
     <div className="space-y-4">
-      {/* Study Header */}
-      <StudyHeader onOpenVideoModal={() => setIsVideoModalOpen(true)} />
-
       {/* Main Study Workbench Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left: Interactive Chessboard & Controls */}
+        {/* Left: Compact Interactive Chessboard & Controls */}
         <div className="lg:col-span-6 flex flex-col space-y-3">
           <ChessboardView
             fen={currentFen}
@@ -102,8 +99,14 @@ export default function StudyPage({ params }: StudyPageProps) {
           />
         </div>
 
-        {/* Right: Branching Move Tree & Commentary */}
+        {/* Right: Study Header + Line Study Selector + Move Commentary & Visual Branching Tree */}
         <div className="lg:col-span-6 flex flex-col space-y-4">
+          {/* Integrated Study Header & Actions (At the side instead of stretching across the top) */}
+          <StudyHeader onOpenVideoModal={() => setIsVideoModalOpen(true)} />
+
+          {/* Option to study which line from the tree: longest, random, or manual */}
+          <LineStudySelector study={study} />
+
           {/* Active Move Commentary & Candidate Moves */}
           <MoveCommentary
             onOpenAnnotationModal={(nodeId) => setAnnotatingNodeId(nodeId)}

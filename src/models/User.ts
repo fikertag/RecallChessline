@@ -25,3 +25,4 @@ const UserSchema = new Schema<IUserDocument>(
 
 export const UserModel: Model<IUserDocument> =
   mongoose.models.User || mongoose.model<IUserDocument>("User", UserSchema);
+

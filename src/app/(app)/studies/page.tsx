@@ -86,12 +86,12 @@ export default function StudiesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
-          <h1 className="text-2xl font-extrabold text-neutral-100 tracking-tight">
+          <h1 className="text-2xl font-extrabold text-foreground tracking-tight">
             My Opening Studies
           </h1>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Organize, branch, and refine your personal opening repertoires.
           </p>
         </div>
@@ -103,9 +103,9 @@ export default function StudiesPage() {
       </div>
 
       {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-neutral-900 border border-neutral-800 rounded-xl">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-card text-card-foreground border border-border rounded-xl shadow-xs">
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -119,8 +119,8 @@ export default function StudiesPage() {
             onClick={() => setColorFilter("all")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               colorFilter === "all"
-                ? "bg-amber-600 text-white"
-                : "bg-neutral-800 text-neutral-400 hover:text-white"
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             All ({studies.length})
@@ -129,8 +129,8 @@ export default function StudiesPage() {
             onClick={() => setColorFilter("white")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               colorFilter === "white"
-                ? "bg-neutral-100 text-neutral-900"
-                : "bg-neutral-800 text-neutral-400 hover:text-white"
+                ? "bg-neutral-100 text-neutral-900 border border-neutral-300 dark:bg-neutral-200 dark:text-neutral-950"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             White ({studies.filter((s) => s.color === "white").length})
@@ -139,8 +139,8 @@ export default function StudiesPage() {
             onClick={() => setColorFilter("black")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               colorFilter === "black"
-                ? "bg-neutral-950 text-neutral-100 border border-amber-500"
-                : "bg-neutral-800 text-neutral-400 hover:text-white"
+                ? "bg-neutral-900 text-neutral-100 border border-primary dark:bg-neutral-950"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             Black ({studies.filter((s) => s.color === "black").length})
@@ -150,10 +150,10 @@ export default function StudiesPage() {
 
       {/* Studies Grid */}
       {filteredStudies.length === 0 ? (
-        <div className="p-12 text-center bg-neutral-900 border border-neutral-800 rounded-xl">
-          <BookOpen className="w-10 h-10 text-neutral-600 mx-auto mb-2" />
-          <h3 className="text-base font-semibold text-neutral-300">No Studies Found</h3>
-          <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
+        <div className="p-12 text-center bg-card border border-border rounded-xl">
+          <BookOpen className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
+          <h3 className="text-base font-semibold text-foreground">No Studies Found</h3>
+          <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
             {searchQuery
               ? `No studies matching "${searchQuery}". Try clearing the search.`
               : "Get started by creating your first opening repertoire."}
@@ -167,30 +167,30 @@ export default function StudiesPage() {
             return (
               <div
                 key={study._id}
-                className="flex flex-col justify-between p-5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-xl transition-all group shadow-sm"
+                className="flex flex-col justify-between p-5 bg-card text-card-foreground border border-border hover:border-primary/40 rounded-xl transition-all group shadow-xs"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant={study.color === "white" ? "white" : "black"}>
                       {study.color === "white" ? "White" : "Black"}
                     </Badge>
-                    <span className="text-[11px] text-neutral-500">
+                    <span className="text-[11px] text-muted-foreground">
                       {formatTimeAgo(study.lastStudiedAt || study.updatedAt)}
                     </span>
                   </div>
 
                   <Link href={`/studies/${study._id}`}>
-                    <h3 className="text-base font-bold text-neutral-100 group-hover:text-amber-400 transition-colors line-clamp-1">
+                    <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1">
                       {study.name}
                     </h3>
                   </Link>
 
-                  <p className="text-xs text-neutral-400 mt-1 line-clamp-2 min-h-[32px]">
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2 min-h-[32px]">
                     {study.description || `Repertoire for ${study.openingName}.`}
                   </p>
 
-                  <div className="flex items-center gap-2 mt-3 text-xs text-neutral-500">
-                    <span className="inline-flex items-center gap-1 font-mono text-amber-500/90">
+                  <div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 font-mono text-primary">
                       <GitBranch className="w-3.5 h-3.5" />
                       {stats.totalVariations} lines
                     </span>
@@ -199,7 +199,7 @@ export default function StudiesPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-neutral-800/80 flex items-center justify-between">
+                <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <Link href={`/studies/${study._id}`}>
                       <Button variant="default" size="sm" className="text-xs">
@@ -209,7 +209,7 @@ export default function StudiesPage() {
                     </Link>
 
                     <Link href={`/studies/${study._id}/train`}>
-                      <Button variant="secondary" size="sm" className="text-xs text-amber-400">
+                      <Button variant="secondary" size="sm" className="text-xs text-primary">
                         <GraduationCap className="w-3.5 h-3.5 mr-1.5" />
                         Train
                       </Button>
@@ -222,7 +222,7 @@ export default function StudiesPage() {
                       size="icon"
                       onClick={() => handleDuplicate(study._id)}
                       title="Duplicate Study"
-                      className="h-8 w-8 text-neutral-400 hover:text-white"
+                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
                     >
                       <Copy className="w-3.5 h-3.5" />
                     </Button>
@@ -231,7 +231,7 @@ export default function StudiesPage() {
                       size="icon"
                       onClick={() => setStudyToDelete(study)}
                       title="Delete Study"
-                      className="h-8 w-8 text-neutral-400 hover:text-red-400"
+                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </Button>
@@ -270,3 +270,4 @@ export default function StudiesPage() {
     </div>
   );
 }
+

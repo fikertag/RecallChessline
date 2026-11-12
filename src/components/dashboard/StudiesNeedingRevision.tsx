@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Study } from "@/types/chess";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, GraduationCap, ArrowRight } from "lucide-react";
+import { AlertCircle, GraduationCap } from "lucide-react";
 import { formatTimeAgo } from "@/lib/utils";
 
 interface RevisionItem {
@@ -19,7 +19,7 @@ interface StudiesNeedingRevisionProps {
 export function StudiesNeedingRevision({ items }: StudiesNeedingRevisionProps) {
   if (items.length === 0) {
     return (
-      <div className="p-4 bg-neutral-900 border border-neutral-800 rounded-xl text-center text-xs text-neutral-400">
+      <div className="p-4 bg-card text-card-foreground border border-border rounded-xl text-center text-xs text-muted-foreground">
         All repertoires are up to date! Great consistency.
       </div>
     );
@@ -30,7 +30,7 @@ export function StudiesNeedingRevision({ items }: StudiesNeedingRevisionProps) {
       {items.map(({ study, accuracy, lastTrained }) => (
         <div
           key={study._id}
-          className="flex items-center justify-between p-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-xl transition-all"
+          className="flex items-center justify-between p-3.5 bg-card text-card-foreground border border-border hover:border-primary/40 rounded-xl transition-all shadow-xs"
         >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
@@ -41,7 +41,7 @@ export function StudiesNeedingRevision({ items }: StudiesNeedingRevisionProps) {
               <div className="flex items-center gap-2">
                 <Link
                   href={`/studies/${study._id}`}
-                  className="text-sm font-semibold text-neutral-100 hover:text-amber-400 transition-colors"
+                  className="text-sm font-semibold text-foreground hover:text-primary transition-colors"
                 >
                   {study.name}
                 </Link>
@@ -49,8 +49,8 @@ export function StudiesNeedingRevision({ items }: StudiesNeedingRevisionProps) {
                   {study.color}
                 </Badge>
               </div>
-              <div className="flex items-center gap-2 text-xs text-neutral-400 mt-0.5">
-                <span>Accuracy: <strong className={accuracy < 70 ? "text-red-400" : "text-amber-400"}>{accuracy}%</strong></span>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                <span>Accuracy: <strong className={accuracy < 70 ? "text-destructive" : "text-amber-500"}>{accuracy}%</strong></span>
                 <span>•</span>
                 <span>Last reviewed: {formatTimeAgo(lastTrained)}</span>
               </div>
@@ -59,7 +59,7 @@ export function StudiesNeedingRevision({ items }: StudiesNeedingRevisionProps) {
 
           <Link href={`/studies/${study._id}/train`}>
             <Button variant="secondary" size="sm" className="text-xs">
-              <GraduationCap className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+              <GraduationCap className="w-3.5 h-3.5 mr-1.5 text-primary" />
               Practice
             </Button>
           </Link>

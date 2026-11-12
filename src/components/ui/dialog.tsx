@@ -44,27 +44,27 @@ export function Dialog({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
         onClick={onClose}
       />
 
       {/* Modal Box */}
       <div
         className={cn(
-          "relative w-full bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl p-6 z-10 animate-in zoom-in-95 duration-200",
+          "relative w-full bg-card text-card-foreground border border-border rounded-xl shadow-2xl p-6 z-10 animate-in zoom-in-95 duration-200",
           maxWidths[maxWidth]
         )}
       >
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h2 className="text-lg font-semibold text-neutral-100">{title}</h2>
+            <h2 className="text-lg font-semibold text-foreground">{title}</h2>
             {description ? (
-              <p className="text-xs text-neutral-400 mt-1">{description}</p>
+              <p className="text-xs text-muted-foreground mt-1">{description}</p>
             ) : null}
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
+            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

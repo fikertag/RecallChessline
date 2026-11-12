@@ -355,3 +355,4 @@ export function createStarterStudies(userId: string): Study[] {
 
   return [italianStudy, sicilianStudy];
 }
+

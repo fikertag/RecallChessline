@@ -44,3 +44,4 @@ export function PromotionModal({ isOpen, color, onSelect, onCancel }: PromotionM
     </Dialog>
   );
 }
+

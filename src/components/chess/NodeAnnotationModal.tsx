@@ -81,7 +81,7 @@ export function NodeAnnotationModal({ isOpen, nodeId, onClose }: NodeAnnotationM
       <div className="space-y-4 pt-2">
         {/* NAG Annotation Selector */}
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
             Move Symbol (NAG)
           </label>
           <div className="grid grid-cols-7 gap-1.5">
@@ -92,8 +92,8 @@ export function NodeAnnotationModal({ isOpen, nodeId, onClose }: NodeAnnotationM
                 onClick={() => setAnnotation(ann.value)}
                 className={`py-1.5 px-2 text-xs font-mono font-bold rounded-md border transition-all ${
                   annotation === ann.value
-                    ? "bg-amber-500 text-neutral-950 border-amber-400"
-                    : "bg-neutral-800 text-neutral-300 border-neutral-700 hover:bg-neutral-700"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-secondary text-secondary-foreground border-border hover:bg-muted"
                 }`}
                 title={ann.desc}
               >
@@ -105,7 +105,7 @@ export function NodeAnnotationModal({ isOpen, nodeId, onClose }: NodeAnnotationM
 
         {/* Move Explanation / Strategic Ideas */}
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
             Explanation & Tactical Notes
           </label>
           <textarea
@@ -113,13 +113,13 @@ export function NodeAnnotationModal({ isOpen, nodeId, onClose }: NodeAnnotationM
             onChange={(e) => setComment(e.target.value)}
             rows={4}
             placeholder="Explain why this move is played, key opponent threats, pawn structures, or tactical traps..."
-            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-amber-500 resize-none font-sans"
+            className="w-full px-3 py-2 bg-input border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary resize-none font-sans"
           />
         </div>
 
         {/* Video Timestamp Reference */}
         <div>
-          <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
             Video Timestamp (Optional, e.g. 04:32 or 272)
           </label>
           <input
@@ -127,12 +127,12 @@ export function NodeAnnotationModal({ isOpen, nodeId, onClose }: NodeAnnotationM
             value={timestampStr}
             onChange={(e) => setTimestampStr(e.target.value)}
             placeholder="04:32"
-            className="w-full px-3 py-1.5 bg-neutral-950 border border-neutral-800 rounded-lg text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-amber-500 font-mono"
+            className="w-full px-3 py-1.5 bg-input border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary font-mono"
           />
         </div>
 
         {/* Action buttons */}
-        <div className="flex justify-end gap-2 pt-2 border-t border-neutral-800">
+        <div className="flex justify-end gap-2 pt-2 border-t border-border">
           <Button variant="secondary" size="sm" onClick={onClose}>
             Cancel
           </Button>

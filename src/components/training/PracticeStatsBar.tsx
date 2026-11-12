@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, Target, Award } from "lucide-react";
 
 interface PracticeStatsBarProps {
@@ -20,50 +19,50 @@ export function PracticeStatsBar({
   accuracy,
 }: PracticeStatsBarProps) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-neutral-900 border border-neutral-800 rounded-xl">
-      <div className="flex items-center gap-2 p-2 bg-neutral-950/60 rounded-lg border border-neutral-800/80">
-        <Target className="w-4 h-4 text-amber-500 shrink-0" />
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-card text-card-foreground border border-border rounded-xl shadow-xs">
+      <div className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg border border-border">
+        <Target className="w-4 h-4 text-primary shrink-0" />
         <div>
-          <span className="text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-medium">
             Mode
           </span>
-          <span className="text-xs font-semibold text-neutral-200 capitalize">
+          <span className="text-xs font-semibold text-foreground capitalize">
             {mode === "guided" ? "Guided Practice" : "Active Recall"}
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-2 bg-neutral-950/60 rounded-lg border border-neutral-800/80">
-        <Award className="w-4 h-4 text-emerald-400 shrink-0" />
+      <div className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg border border-border">
+        <Award className="w-4 h-4 text-emerald-500 shrink-0" />
         <div>
-          <span className="text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-medium">
             Accuracy
           </span>
-          <span className="text-sm font-bold text-emerald-400">
+          <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
             {accuracy}%
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-2 bg-neutral-950/60 rounded-lg border border-neutral-800/80">
+      <div className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg border border-border">
         <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
         <div>
-          <span className="text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-medium">
             Correct Moves
           </span>
-          <span className="text-sm font-bold text-neutral-100">
+          <span className="text-sm font-bold text-foreground">
             {correctMoves}
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-2 bg-neutral-950/60 rounded-lg border border-neutral-800/80">
-        <XCircle className="w-4 h-4 text-red-400 shrink-0" />
+      <div className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg border border-border">
+        <XCircle className="w-4 h-4 text-destructive shrink-0" />
         <div>
-          <span className="text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-medium">
             Mistakes
           </span>
-          <span className="text-sm font-bold text-red-400">
+          <span className="text-sm font-bold text-destructive">
             {incorrectMoves}
           </span>
         </div>

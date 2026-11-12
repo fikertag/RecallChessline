@@ -12,7 +12,7 @@ import { BookOpen, AlertCircle, Sparkles } from "lucide-react";
 export default function DashboardPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
-  const { data: statsData, isLoading: isStatsLoading, refetch: refetchStats } = useQuery({
+  const { data: statsData, refetch: refetchStats } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: async () => {
       const res = await fetch("/api/training/stats");
@@ -21,7 +21,7 @@ export default function DashboardPage() {
     },
   });
 
-  const { data: studiesData, isLoading: isStudiesLoading, refetch: refetchStudies } = useQuery({
+  const { data: studiesData, refetch: refetchStudies } = useQuery({
     queryKey: ["my-studies"],
     queryFn: async () => {
       const res = await fetch("/api/studies");
@@ -42,17 +42,17 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome & Quick Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-800/80">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold text-neutral-100 tracking-tight">
+            <h1 className="text-2xl font-extrabold text-foreground tracking-tight">
               Repertoire Command Center
             </h1>
-            <span className="p-1 rounded-full bg-amber-500/10 text-amber-400">
+            <span className="p-1 rounded-full bg-primary/10 text-primary">
               <Sparkles className="w-4 h-4" />
             </span>
           </div>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Build branching opening trees and train through active recall.
           </p>
         </div>
@@ -74,12 +74,12 @@ export default function DashboardPage() {
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-amber-500" />
-              <h2 className="text-base font-bold text-neutral-100">
+              <BookOpen className="w-4 h-4 text-primary" />
+              <h2 className="text-base font-bold text-foreground">
                 Active Opening Repertoires
               </h2>
             </div>
-            <span className="text-xs text-neutral-400">
+            <span className="text-xs text-muted-foreground">
               {studies.length} {studies.length === 1 ? "study" : "studies"}
             </span>
           </div>
@@ -90,8 +90,8 @@ export default function DashboardPage() {
         {/* Right: Studies Needing Revision (Spaced Repetition) */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-amber-500" />
-            <h2 className="text-base font-bold text-neutral-100">
+            <AlertCircle className="w-4 h-4 text-primary" />
+            <h2 className="text-base font-bold text-foreground">
               Need Revision
             </h2>
           </div>
@@ -112,3 +112,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

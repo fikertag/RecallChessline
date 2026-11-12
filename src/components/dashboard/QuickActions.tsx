@@ -35,3 +35,4 @@ export function QuickActions({ onOpenCreateStudy }: QuickActionsProps) {
     </div>
   );
 }
+

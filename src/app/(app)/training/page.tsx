@@ -43,11 +43,11 @@ export default function TrainingHubPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="pb-4 border-b border-neutral-800">
-        <h1 className="text-2xl font-extrabold text-neutral-100 tracking-tight">
+      <div className="pb-4 border-b border-border">
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight">
           Training Hub & Practice Arena
         </h1>
-        <p className="text-xs text-neutral-400 mt-1">
+        <p className="text-xs text-muted-foreground mt-1">
           Select an opening repertoire to practice against saved variations through active recall.
         </p>
       </div>
@@ -55,14 +55,14 @@ export default function TrainingHubPage() {
       {/* Select Study for Training */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <GraduationCap className="w-5 h-5 text-amber-500" />
-          <h2 className="text-base font-bold text-neutral-100">
+          <GraduationCap className="w-5 h-5 text-primary" />
+          <h2 className="text-base font-bold text-foreground">
             Select Repertoire to Train
           </h2>
         </div>
 
         {studies.length === 0 ? (
-          <div className="p-8 text-center bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-400 text-xs">
+          <div className="p-8 text-center bg-card border border-border rounded-xl text-muted-foreground text-xs">
             No opening studies available to practice. Create a study first!
           </div>
         ) : (
@@ -73,28 +73,28 @@ export default function TrainingHubPage() {
               return (
                 <div
                   key={study._id}
-                  className="p-5 bg-neutral-900 border border-neutral-800 rounded-xl hover:border-neutral-700 transition-all flex flex-col justify-between shadow-sm"
+                  className="p-5 bg-card text-card-foreground border border-border rounded-xl hover:border-primary/40 transition-all flex flex-col justify-between shadow-xs"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <Badge variant={study.color === "white" ? "white" : "black"}>
                         {study.color === "white" ? "White" : "Black"}
                       </Badge>
-                      <span className="text-[11px] text-neutral-500">
+                      <span className="text-[11px] text-muted-foreground">
                         {stats.totalVariations} lines
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-neutral-100 line-clamp-1">
+                    <h3 className="text-base font-bold text-foreground line-clamp-1">
                       {study.name}
                     </h3>
-                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                       {study.description || `Opening preparation for ${study.openingName}.`}
                     </p>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-neutral-800 flex items-center justify-between">
-                    <span className="text-[11px] text-neutral-500">
+                  <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
+                    <span className="text-[11px] text-muted-foreground">
                       Last tested: {formatTimeAgo(study.lastStudiedAt)}
                     </span>
 
@@ -115,21 +115,21 @@ export default function TrainingHubPage() {
       {/* Training History & Recent Performance */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <History className="w-5 h-5 text-amber-500" />
-          <h2 className="text-base font-bold text-neutral-100">
+          <History className="w-5 h-5 text-primary" />
+          <h2 className="text-base font-bold text-foreground">
             Recent Practice History
           </h2>
         </div>
 
         {sessions.length === 0 ? (
-          <div className="p-8 text-center bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-500 text-xs">
+          <div className="p-8 text-center bg-card border border-border rounded-xl text-muted-foreground text-xs">
             No training sessions completed yet. Practice your first opening above!
           </div>
         ) : (
-          <div className="overflow-hidden bg-neutral-900 border border-neutral-800 rounded-xl">
+          <div className="overflow-hidden bg-card border border-border rounded-xl shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-neutral-950/80 text-neutral-400 uppercase font-semibold border-b border-neutral-800">
+                <thead className="bg-muted/70 text-muted-foreground uppercase font-semibold border-b border-border">
                   <tr>
                     <th className="p-3.5">Repertoire</th>
                     <th className="p-3.5">Mode</th>
@@ -139,14 +139,14 @@ export default function TrainingHubPage() {
                     <th className="p-3.5">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-800 text-neutral-200">
+                <tbody className="divide-y divide-border text-foreground">
                   {sessions.map((sess) => (
-                    <tr key={sess._id} className="hover:bg-neutral-800/40 transition-colors">
-                      <td className="p-3.5 font-semibold text-neutral-100">
+                    <tr key={sess._id} className="hover:bg-muted/50 transition-colors">
+                      <td className="p-3.5 font-semibold text-foreground">
                         {sess.studyName || "Repertoire Practice"}
                       </td>
                       <td className="p-3.5">
-                        <span className="capitalize px-2 py-0.5 rounded-full text-[11px] bg-neutral-800 border border-neutral-700">
+                        <span className="capitalize px-2 py-0.5 rounded-full text-[11px] bg-secondary text-secondary-foreground border border-border">
                           {sess.mode}
                         </span>
                       </td>
@@ -154,18 +154,18 @@ export default function TrainingHubPage() {
                         <span
                           className={
                             sess.accuracy >= 80
-                              ? "text-emerald-400"
+                              ? "text-emerald-600 dark:text-emerald-400"
                               : sess.accuracy >= 60
-                              ? "text-amber-400"
-                              : "text-red-400"
+                              ? "text-amber-600 dark:text-amber-400"
+                              : "text-destructive"
                           }
                         >
                           {sess.accuracy}%
                         </span>
                       </td>
                       <td className="p-3.5 font-mono">{sess.movesTested}</td>
-                      <td className="p-3.5 font-mono text-red-400">{sess.incorrectMoves}</td>
-                      <td className="p-3.5 text-neutral-400">{formatTimeAgo(sess.createdAt)}</td>
+                      <td className="p-3.5 font-mono text-destructive">{sess.incorrectMoves}</td>
+                      <td className="p-3.5 text-muted-foreground">{formatTimeAgo(sess.createdAt)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -177,3 +177,4 @@ export default function TrainingHubPage() {
     </div>
   );
 }
+

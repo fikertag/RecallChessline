@@ -32,7 +32,6 @@ export function SessionSummaryModal({
 }: SessionSummaryModalProps) {
   useEffect(() => {
     if (isOpen) {
-      // Fire celebration confetti if accuracy is good
       if (accuracy >= 70) {
         confetti({
           particleCount: 80,
@@ -57,15 +56,15 @@ export function SessionSummaryModal({
     >
       <div className="space-y-5 pt-2">
         {/* Score banner */}
-        <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-950/40 to-neutral-950 rounded-xl border border-amber-900/40 text-center">
-          <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-2">
-            <Trophy className="w-6 h-6 text-amber-400" />
+        <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-b from-primary/10 to-background rounded-xl border border-primary/30 text-center">
+          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-2">
+            <Trophy className="w-6 h-6 text-primary" />
           </div>
-          <div className="text-3xl font-extrabold text-neutral-100">{accuracy}%</div>
-          <div className="text-xs uppercase tracking-wider text-amber-400 font-semibold mt-1">
+          <div className="text-3xl font-extrabold text-foreground">{accuracy}%</div>
+          <div className="text-xs uppercase tracking-wider text-primary font-semibold mt-1">
             Repertoire Accuracy
           </div>
-          <p className="text-xs text-neutral-400 mt-2 max-w-sm">
+          <p className="text-xs text-muted-foreground mt-2 max-w-sm">
             {accuracy === 100
               ? "Flawless memory! You executed your repertoire without a single mistake."
               : accuracy >= 80
@@ -76,24 +75,24 @@ export function SessionSummaryModal({
 
         {/* Quick stats grid */}
         <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="p-2.5 bg-neutral-950 rounded-lg border border-neutral-800">
-            <div className="text-xs text-neutral-400 font-medium">Total Moves</div>
-            <div className="text-base font-bold text-neutral-100 mt-0.5">{movesTested}</div>
+          <div className="p-2.5 bg-muted/60 rounded-lg border border-border">
+            <div className="text-xs text-muted-foreground font-medium">Total Moves</div>
+            <div className="text-base font-bold text-foreground mt-0.5">{movesTested}</div>
           </div>
-          <div className="p-2.5 bg-neutral-950 rounded-lg border border-neutral-800">
-            <div className="text-xs text-neutral-400 font-medium">Correct Moves</div>
-            <div className="text-base font-bold text-emerald-400 mt-0.5">{correctMoves}</div>
+          <div className="p-2.5 bg-muted/60 rounded-lg border border-border">
+            <div className="text-xs text-muted-foreground font-medium">Correct Moves</div>
+            <div className="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{correctMoves}</div>
           </div>
-          <div className="p-2.5 bg-neutral-950 rounded-lg border border-neutral-800">
-            <div className="text-xs text-neutral-400 font-medium">Session Time</div>
-            <div className="text-base font-bold text-neutral-200 mt-0.5">{timeStr}</div>
+          <div className="p-2.5 bg-muted/60 rounded-lg border border-border">
+            <div className="text-xs text-muted-foreground font-medium">Session Time</div>
+            <div className="text-base font-bold text-foreground mt-0.5">{timeStr}</div>
           </div>
         </div>
 
         {/* Mistakes Review Table */}
         {mistakes.length > 0 ? (
           <div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-red-400 mb-2">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-destructive mb-2">
               <AlertCircle className="w-3.5 h-3.5" />
               <span>Problem Positions ({mistakes.length}):</span>
             </div>
@@ -101,17 +100,17 @@ export function SessionSummaryModal({
               {mistakes.map((m, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-2 rounded-lg bg-neutral-950 border border-neutral-800 text-xs"
+                  className="flex items-center justify-between p-2 rounded-lg bg-muted/50 border border-border text-xs"
                 >
-                  <span className="text-neutral-400 font-mono">
+                  <span className="text-muted-foreground font-mono">
                     Pos #{idx + 1}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-red-400 line-through font-mono">
+                    <span className="text-destructive line-through font-mono">
                       {m.playedSan}
                     </span>
-                    <span className="text-neutral-500">→</span>
-                    <span className="text-emerald-400 font-bold font-mono">
+                    <span className="text-muted-foreground">→</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono">
                       Expected: {m.expectedSan}
                     </span>
                   </div>
@@ -122,7 +121,7 @@ export function SessionSummaryModal({
         ) : null}
 
         {/* Action buttons */}
-        <div className="flex items-center justify-between pt-3 border-t border-neutral-800">
+        <div className="flex items-center justify-between pt-3 border-t border-border">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1.5" />
             Back to Study
