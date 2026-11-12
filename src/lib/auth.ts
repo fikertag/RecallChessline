@@ -70,17 +70,18 @@ export async function getCurrentUser(): Promise<User | null> {
   if (!isFallback) {
     try {
       const user = await UserModel.findById(payload.userId).lean();
-      if (!user) return null;
-      return {
-        _id: String(user._id),
-        name: user.name,
-        email: user.email,
-        avatarUrl: user.avatarUrl,
-        emailVerified: user.emailVerified,
-        preferences: user.preferences,
-        createdAt: (user as unknown as Record<string, unknown>).createdAt ? new Date((user as unknown as Record<string, unknown>).createdAt as string).toISOString() : new Date().toISOString(),
-        updatedAt: (user as unknown as Record<string, unknown>).updatedAt ? new Date((user as unknown as Record<string, unknown>).updatedAt as string).toISOString() : new Date().toISOString(),
-      };
+      if (user) {
+        return {
+          _id: String(user._id),
+          name: user.name,
+          email: user.email,
+          avatarUrl: user.avatarUrl,
+          emailVerified: user.emailVerified,
+          preferences: user.preferences,
+          createdAt: (user as unknown as Record<string, unknown>).createdAt ? new Date((user as unknown as Record<string, unknown>).createdAt as string).toISOString() : new Date().toISOString(),
+          updatedAt: (user as unknown as Record<string, unknown>).updatedAt ? new Date((user as unknown as Record<string, unknown>).updatedAt as string).toISOString() : new Date().toISOString(),
+        };
+      }
     } catch {
       // Fallback to localDb
     }
